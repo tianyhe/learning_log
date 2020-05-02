@@ -1,14 +1,23 @@
 {% extends "learning_logs/base.html" %}
 
+{% load bootstrap4 %}
+
 {% block content %}
 
   <form method='post' action="{% url 'users:register' %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% bootstrap_form form %}
+    <!--
+      use to display the form with bootstrap styling.
+      Replace 'form.as_p' modefier which displace form in paragraph style automatifcally.
+    -->
 
-    <button name="submit">Register</button>
+    {% buttons %}
+    <button name="submit" class="btn btn-primary">Register</button>
     <input type="hidden" name="next"
       value="{% url 'learning_logs:index' %}" />
+    {% endbuttons %}
+
   </form>
 
 {% endblock content %}

@@ -1,25 +1,37 @@
-{% extends "learning_logs/base.html" %}
+{% extends 'learning_logs/base.html' %}
+
+{% block page_header %}
+  <h3>{{ topic }}</h3>
+{% endblock page_header %}
 
 {% block content %}
-
-  <p>Topics</p>
-
-  <p>Entries:</p>
   <p>
     <a href="{% url 'learning_logs:new_entry' topic.id %}">Add new entry</a>
   </p>
+
   <ul>
-    {% for entry in entries %}
-      <li>
-        <p>{{ entry.date_added|date:'M d, Y H:i' }}</p>
-        <p>{{ entry.text|linebreaks }}</p>
-        <p>
-          <a href="{% url 'learning_logs:edit_entry' entry.id %}">Edit entry</a>
-        </p>
-      </li>
-    {% empty %}
-      <li>There are no entries for this topic yet.</li>
-    {% endfor %}
-  </ul>
+  {% for entry in entries %}
+    <div class="card mb-3">
+    <!--Create a div element with the selector 'card' and 'mb-3' style.-->
+      <h4 class="card-header">
+      <!--An <h4> element with the selector 'card-header'.-->
+        {{ entry.date_added|date:'M d, Y H:i' }}
+        <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">
+            edit entry</a></small>
+        <!--'<small>' tag makes the element appear a little smaller than the above element.-->
+      </h4>
+      <div class="card-body">
+      <!--Create a div element with the selector 'card-body'.-->
+        {{ entry.text|linebreaks }}
+      </div>
+    </div>
+  {% empty %}
+    <p>There are no entries for this topic yet.</p>
+  {% endfor %}
 
 {% endblock content %}
+
+<!--
+  The information of the page hasn't changed;
+   only the elements that affect the appearance of the page have changed.
+-->

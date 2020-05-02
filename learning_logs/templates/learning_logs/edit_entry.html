@@ -1,17 +1,26 @@
 {% extends "learning_logs/base.html" %}
 
-{% block content %}
+{% load bootstrap4 %}
 
-  <p>
+{% block page_header %}
+  <h2>
     <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-  </p>
+  </h2>
+  <h3>Edit entry:</h3>
+{% endblock page_header %}
 
-  <p>Edit entry:</p>
+{% block content %}
 
   <form action="{% url 'learning_logs:edit_entry' entry.id %}" method="post">
     {% csrf_token %}
-    {{ form.as_p}}
-    <button name = "submit">Save changes</button>
+    {% bootstrap_form form %}
+    <!--
+      use to display the form with bootstrap styling.
+      Replace 'form.as_p' modefier which displace form in paragraph style automatifcally.
+    -->
+    {% buttons %}
+    <button name = "submit" class="btn btn-primary">Save changes</button>
+    {% endbuttons %}
   </form>
 
 {% endblock content %}

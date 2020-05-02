@@ -1,13 +1,97 @@
-<p>
-  <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
-  <a href="{% url 'learning_logs:topics' %}">Topics</a> -
-  {% if user.is_authenticated %}
-    Hello, {{ user.username }}.
-    <a href="{% url 'users:logout' %}">Log out</a>
-  {% else %}
-    <a href="{% url 'users:register' %}">Register</a> - 
-    <a href="{% url 'users:login' %}">Log in</a>
-  {% endif %}
-</p>
+{% load bootstrap4 %} <!--Load the collection of template tags available in django-bootstrap4-->
 
-{% block content %}{% endblock content %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,
+    shrink-to-fit=no">
+  <title>Learning Log</title>
+
+  {% bootstrap_css %}
+  {% bootstrap_javascript jquery='full' %}
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4 border"> 
+  <!--
+      'Selectors' determine the element's styling.
+      'navbar', 'navbar-expand-md' define the styling rules.
+      'navbar-light', 'bg-light' define theme backgroud.
+      'mb' stands for margin-bottom.
+      'border'  provides a thin boarder around the background.
+  -->
+
+    <a class="navbar-brand" href="{% url 'learning_logs:index'%}">
+        Learning Log</a>
+    <!--'navbar-brand' makes this link stand out.-->
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span></button>
+    <!--
+        For users with a small screen, which provide a drop-down list of nav elements.
+        'collapse' reference callapse the nav bar wehn user shrink the brower window.
+    -->
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+    <!--'div' short for division, divide web page into sections.-->
+      <ul class="navbar-nav mr-auto">
+      <!--'ul' defines elements as items in an unordered list.-->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'learning_logs:topics'%}">
+              Topics</a></li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+      <!--
+        'mi-auto' short for margin-left-automatic:
+        this selector examines the other elements in the nav bar
+         and works out a left margin that pushes this group of links
+         to the left side of screen.
+      -->
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="navbar-text"}">Hello, {{ user.username }}.</span>
+            <!--
+              '<span>' element styles pieces of elements of a page within the overall styling.
+            -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:login' %}">Log in</a></li>
+        {% endif %}
+      </ul>
+
+    </div>
+
+  </nav>
+
+  <main role="main" class="container">
+  <!--
+    'main' element i used for the most significant part of the body of a page.
+    'container' selector is a simple way to grou elements on a page.
+  -->
+    <div class="pb-2 mb-2 border-bottom">
+    <!--
+      'pb' short for padding below, refers to space between an element's content and its border.
+      'mb' short for margin button, is the space between an elements's border and other elements on the page.
+    -->
+      {% block page_header %}{% endblock page_header %}
+    </div>
+    <div>
+      {% block content %}{% endblock content %}
+    </div>
+  </main>
+
+</body>
+
+</html>
