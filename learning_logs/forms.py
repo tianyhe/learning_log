@@ -7,7 +7,7 @@ class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ['text']
-        labels = {'text': ''}
+        labels = {'text': '', "public": "label for public"}
 
 class EntryForm(forms.ModelForm):
     """A class to define the entry form."""

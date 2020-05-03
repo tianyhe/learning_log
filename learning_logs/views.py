@@ -21,8 +21,8 @@ def topics(request):
 def topic(request, topic_id):
     """Show a single topic and all its entries."""
     topic = get_object_or_404(Topic, id=topic_id)
-    # Make sure the topic belongs to the current user.
-    check_topic_owner(topic, request)
+    # If the status is not public, make sure the topic belongs to the current user.
+    check_topic_status(topic, request) # Otherwise displace in Read-Only Mode
 
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
@@ -40,6 +40,7 @@ def new_topic(request):
         if form.is_valid():
             new_topic = form.save(commit=False)
             new_topic.owner = request.user
+            new_topic.public = request.POST.get('public', default=False)
             new_topic.save()
             return redirect('learning_logs:topics')
 
@@ -94,4 +95,9 @@ def edit_entry(request, entry_id):
 def check_topic_owner(topic, request):
     """Make sure the requested data belongs to the current user."""
     if topic.owner != request.user:
+        raise Http404
+
+def check_topic_status(topic, request):
+    """Check if the topic avaliable to the unauthenticated users."""
+    if topic.public == False:
         raise Http404

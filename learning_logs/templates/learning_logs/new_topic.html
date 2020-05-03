@@ -15,8 +15,13 @@
       use to display the form with bootstrap styling.
       Replace 'form.as_p' modefier which displace form in paragraph style automatifcally.
     -->
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="checkbox" name="public", value="True", id='publicTrue' />
+      <label class="form-check-label" for="publicTrue">Public</label>
+    </div>
+
     {% buttons %}
-    <button name = "submit" class="btn btn-primary">Add topic</button>
+    <button name = "submit" class="btn btn-primary mt-4">Add topic</button>
     {% endbuttons %}
   </form>
 
